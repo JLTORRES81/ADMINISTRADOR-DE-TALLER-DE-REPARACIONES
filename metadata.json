@@ -1,0 +1,6 @@
+{
+  "name": "ElectroFix OS - Electronics del Sureste",
+  "description": "Sistema operativo industrial para gestión técnica de taller, recepción de equipos, diagnóstico con IA, facturación CFDI 4.0 e impresión térmica.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

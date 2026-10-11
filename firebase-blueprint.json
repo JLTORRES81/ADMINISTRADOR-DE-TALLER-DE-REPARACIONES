@@ -1,0 +1,148 @@
+{
+  "entities": {
+    "Ticket": {
+      "title": "Ticket",
+      "description": "Expediente de orden de reparación y servicio técnico",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "clientName": { "type": "string", "maxLength": 128 },
+        "isRegularClient": { "type": "boolean" },
+        "phone": { "type": "string", "maxLength": 32 },
+        "email": { "type": "string", "format": "email", "maxLength": 128 },
+        "category": { "type": "string", "enum": ["smartphone", "laptop", "console", "tablet", "wearable", "audio"] },
+        "deviceModel": { "type": "string", "maxLength": 128 },
+        "modelCode": { "type": "string", "maxLength": 64 },
+        "imeiSerial": { "type": "string", "maxLength": 64 },
+        "accessPin": { "type": "string", "maxLength": 32 },
+        "isFormattedOrNoPin": { "type": "boolean" },
+        "declaredFault": { "type": "string", "maxLength": 1000 },
+        "tags": { "type": "array" },
+        "cosmeticNotes": { "type": "string", "maxLength": 1000 },
+        "requiresThermalLabel": { "type": "boolean" },
+        "stage": { "type": "string", "enum": ["ingreso", "triage", "reparacion", "qc", "entregado"] },
+        "assignedTech": { "type": "string", "maxLength": 128 },
+        "assignedBench": { "type": "string", "maxLength": 64 },
+        "estimatedHours": { "type": "string", "maxLength": 64 },
+        "warrantyPeriod": { "type": "string", "maxLength": 64 },
+        "diagnosisCost": { "type": "number" },
+        "laborCost": { "type": "number" },
+        "partsCost": { "type": "number" },
+        "depositReceived": { "type": "number" }
+      },
+      "required": ["id", "clientName", "category", "deviceModel", "stage"]
+    },
+    "Technician": {
+      "title": "Technician",
+      "description": "Especialista técnico de banco de trabajo y nómina",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 128 },
+        "level": { "type": "string", "maxLength": 32 },
+        "role": { "type": "string", "maxLength": 128 },
+        "specialty": { "type": "string", "maxLength": 128 },
+        "activeOrders": { "type": "number" },
+        "qcRate": { "type": "number" },
+        "weeklyCommission": { "type": "number" },
+        "bench": { "type": "string", "maxLength": 64 },
+        "isWorkloadActive": { "type": "boolean" },
+        "avatarUrl": { "type": "string", "maxLength": 512 },
+        "canApproveQc": { "type": "boolean" },
+        "canTakeParts": { "type": "boolean" }
+      },
+      "required": ["id", "name", "specialty", "isWorkloadActive"]
+    },
+    "PriceCategory": {
+      "title": "PriceCategory",
+      "description": "Catálogo de tarifas y tabulador de servicios de taller",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 128 },
+        "description": { "type": "string", "maxLength": 256 },
+        "group": { "type": "string", "enum": ["tv", "audio_optica", "computo_movil", "otros"] },
+        "badge": { "type": "string", "maxLength": 32 },
+        "reviewCost": { "type": "number" },
+        "laborCost": { "type": "number" },
+        "isDeductible": { "type": "boolean" },
+        "requiresTwoTechs": { "type": "boolean" },
+        "footerNote": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "title", "group", "reviewCost", "laborCost"]
+    },
+    "Invoice": {
+      "title": "Invoice",
+      "description": "Comprobante fiscal SAT CFDI 4.0 o nota de mostrador",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "folio": { "type": "string", "maxLength": 32 },
+        "type": { "type": "string", "enum": ["nota", "cfdi"] },
+        "clientName": { "type": "string", "maxLength": 128 },
+        "rfc": { "type": "string", "maxLength": 16 },
+        "date": { "type": "string", "maxLength": 64 },
+        "amount": { "type": "number" },
+        "deviceSummary": { "type": "string", "maxLength": 256 },
+        "status": { "type": "string", "maxLength": 32 }
+      },
+      "required": ["id", "folio", "type", "clientName", "amount", "status"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Mensajes en tiempo real con ElectroBot IA de taller",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "ticketId": { "type": "string", "maxLength": 64 },
+        "sender": { "type": "string", "enum": ["user", "bot"] },
+        "timestamp": { "type": "string", "maxLength": 32 },
+        "text": { "type": "string", "maxLength": 2000 }
+      },
+      "required": ["id", "sender", "timestamp", "text"]
+    },
+    "WorkbenchNotification": {
+      "title": "WorkbenchNotification",
+      "description": "Notificaciones push FCM de asignación a banco de trabajo",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "technicianName": { "type": "string", "maxLength": 128 },
+        "bench": { "type": "string", "maxLength": 64 },
+        "ticketId": { "type": "string", "maxLength": 64 },
+        "deviceModel": { "type": "string", "maxLength": 128 },
+        "faultSummary": { "type": "string", "maxLength": 500 },
+        "timestamp": { "type": "string", "maxLength": 32 },
+        "read": { "type": "boolean" }
+      },
+      "required": ["id", "technicianName", "bench", "ticketId"]
+    }
+  },
+  "firestore": {
+    "/tickets/{ticketId}": {
+      "schema": "Ticket",
+      "description": "Colección de tickets de servicio y órdenes de reparación"
+    },
+    "/technicians/{technicianId}": {
+      "schema": "Technician",
+      "description": "Colección de especialistas y técnicos de taller"
+    },
+    "/priceCategories/{categoryId}": {
+      "schema": "PriceCategory",
+      "description": "Tabulador oficial de precios de revisión y mano de obra"
+    },
+    "/invoices/{invoiceId}": {
+      "schema": "Invoice",
+      "description": "Registro de comprobantes fiscales CFDI 4.0 y notas de mostrador"
+    },
+    "/tickets/{ticketId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Historial de mensajes de chat con ElectroBot vinculado al ticket"
+    },
+    "/workbenchNotifications/{notificationId}": {
+      "schema": "WorkbenchNotification",
+      "description": "Registro de alertas push FCM enviadas a estaciones de trabajo"
+    }
+  }
+}
+
